@@ -5,7 +5,7 @@
 |  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
 | :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
 | Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
-| Trird-party repo |  mysql.com         |   mysql.com     |   mysql.com   |  mysql.com   | 
+| Third-party repo |  mysql.com         |   mysql.com     |   mysql.com   |  mysql.com   | 
 
 ### 1) Install role from Galaxy
 ```
