@@ -13,7 +13,7 @@
     # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             mysql
       mysql:
         enabled: true
-        src: "distribution"
+        src: "third_party"
         version: ""
         service:
           state: "started"
