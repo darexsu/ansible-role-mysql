@@ -1,0 +1,41 @@
+---
+- name: ensure dependencies are installed.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items: "{{ mysql_install['dependencies']['RedHat'] }}"
+
+- name: remove old packages.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mysql_remove['packages']['RedHat'] }}"
+  when: mysql_remove.enabled
+
+- name: add repo for redhat
+  block:
+    - name: import mysql gpg key
+      ansible.builtin.rpm_key:
+        key: "{{ mysql_const[ansible_os_family]['mysql_gpg'] }}"
+        state: present
+
+    - name: add repository
+      ansible.builtin.yum_repository:
+        name: mysql
+        description: mysql YUM repo
+        baseurl: "{{ mysql_const[ansible_os_family]['mysql_repo'] }}"
+        gpgcheck: yes
+        enabled: true
+        module_hotfixes: true
+  when: mysql.src == "third_party"
+
+- name: install mysql packages.
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  ignore_errors: true
+  with_items: "{{ mysql_install['packages']['RedHat'] }}"

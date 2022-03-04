@@ -1,0 +1,70 @@
+---
+# mysql
+#   ├── install
+#   |    ├── packages
+#   |    └── dependencies#
+#   ├── config
+#   |    └── server.cnf
+#   └── remove
+
+# mysql
+mysql:
+  enabled: false
+  src: "distribution"
+  version: ""
+  service:    
+    state: "started"
+    enabled: true
+
+# mysql -> install
+mysql_install:
+  enabled: false
+  packages:
+    Debian: [mysql-server]
+    RedHat: [mysql-server]
+  dependencies:
+    Debian: [gnupg2, python3, python3-pymysql]
+    RedHat: [python3, python3-PyMySQL]
+
+# mysql -> config
+mysql_config:
+  enabled: false
+  file: "{{ mysql_const[ansible_os_family]['config_file']}}"
+  src: "mysql__server.conf.j2"
+  backup: false
+  skip-grant-tables: false
+  vars:    
+    pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
+    socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
+    datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
+    log-error: "{{ mysql_const[ansible_os_family]['log-error'] }}"
+
+# mysql -> remove
+mysql_remove:
+  enabled: false
+  packages:
+    Debian:  [mysql-server, mysql-client, mysql-server, mysql-client]
+    RedHat:  [mysql-server, mysql-client, mysql-server, mysql-client]
+
+# mysql -> constants
+mysql_const:
+  Debian:
+    service_name: "mysql"
+    config_file: "mysqld.cnf"
+    config_path: "/etc/mysql/mysql.conf.d/"
+    mysql_repo: "deb https://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql.version }} "
+    mysql_gpg: "3A79BD29"
+    pid-file: "/var/run/mysqld/mysqld.pid"
+    socket: "/var/run/mysqld/mysqld.sock"
+    datadir: "/var/lib/mysql"
+    log-error: "/var/log/mysql/error.log"
+  RedHat:
+    service_name: "mysqld"
+    config_file: "mysql-server.cnf"
+    config_path: "/etc/my.cnf.d/"
+    mysql_repo: "https://repo.mysql.com/yum/mysql-{{ mysql.version }}-community/el/$releasever/$basearch"
+    mysql_gpg: "https://repo.mysql.com/RPM-GPG-KEY-mysql-2022"
+    pid-file: "/var/run/mysqld/mysqld.pid"
+    socket: "/var/lib/mysql/mysql.sock"
+    datadir: "/var/lib/mysql"
+    log-error: "/var/log/mysql/mysqld.log"

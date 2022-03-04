@@ -1,0 +1,10 @@
+---
+- name: edit server.cnf config
+  ansible.builtin.template:
+    src: "{{ mysql_config.src }}"
+    dest: "{{ mysql_const[ansible_os_family]['config_path'] }}{{ mysql_config['file'] }}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: "{{ mysql_config.backup }}"
+  notify: restart mysql

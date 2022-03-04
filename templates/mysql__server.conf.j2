@@ -1,0 +1,13 @@
+
+[server]
+
+[mysqld]
+{% for key, value in mysql_config.vars.items() %}  
+{{ key }}={{ value }}
+{% endfor %}
+{% if mysql_config['skip-grant-tables'] %}
+skip-grant-tables
+{% endif %}
+[embedded]
+
+[mysql]
