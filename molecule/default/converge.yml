@@ -13,8 +13,8 @@
       # mysql
       mysql:
         enabled: true
-        src: "distribution"
-        version: ""
+        src: "third_party"
+        version: "8.0"
         service:
           state: "started"
           enabled: true
