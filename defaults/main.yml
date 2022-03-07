@@ -12,7 +12,7 @@ mysql:
   enabled: false
   src: "distribution"
   version: ""
-  service:    
+  service:
     state: "started"
     enabled: true
 
@@ -33,7 +33,7 @@ mysql_config:
   src: "mysql__server.conf.j2"
   backup: false
   skip-grant-tables: false
-  vars:    
+  vars:
     pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
     socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
     datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
@@ -43,8 +43,8 @@ mysql_config:
 mysql_remove:
   enabled: false
   packages:
-    Debian:  [mysql-server, mysql-client, mysql-server, mysql-client]
-    RedHat:  [mysql-server, mysql-client, mysql-server, mysql-client]
+    Debian: [mysql-server, mysql-client, mysql-server, mysql-client]
+    RedHat: [mysql-server, mysql-client, mysql-server, mysql-client]
 
 # mysql -> constants
 mysql_const:

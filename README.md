@@ -21,10 +21,9 @@ ansible-galaxy install darexsu.mysql --force
   - config
     - [configure server.cnf](#configure-servercnf)
 
-Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
+Replace or Merge dictionaries (with "hash_behaviour=replace" in ansible.cfg):
 ```
 # Replace             # Merge
-[host_vars]           [host_vars]
 ---                   ---
   vars:                 vars:
     dict:                 merge:
@@ -32,8 +31,8 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
       b: "value"              a: "value" 
                               b: "value"
 
-# Role recursive merge:
-[host_vars]     [current role]    [include_role]
+# How does merge work?
+Your vars [host_vars]  -->  default vars [current role] --> default vars [include role]
   
   dict:          dict:              dict:
     a: "1" -->     a: "1"    -->      a: "1"
@@ -50,7 +49,7 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             mysql
+      # mysql
       mysql:
         enabled: true
         src: "distribution"
@@ -58,13 +57,13 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
         service:
           state: "started"
           enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             remove mysql
+      # mysql -> remove
       mysql_remove:
         enabled: false
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install mysql
+      # mysql -> install
       mysql_install:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf
+      # mysql -> config
       mysql_config:
         enabled: false
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
@@ -91,11 +90,12 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             mysql 
+      # mysql
       mysql:
         enabled: true  
-        src: "distribution"   # <-- enable official repo
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install mysql
+      # mysql -> enable official repo
+        src: "distribution"
+      # mysql -> install
       mysql_install:
         enabled: true
   
@@ -112,15 +112,16 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             mysql
+      # mysql
       mysql:
         enabled: true  
-        src: "third_party"    # <-- enable third_party repo
-        version: "8.0"       # <-- set version
+      # mysql -> enable third-party repo
+        src: "third_party"
+        version: "8.0"
         service:
           state: "started"
           enabled: true    
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install mysql
+      # mysql -> install
       mysql_install:
         enabled: true
   
@@ -138,10 +139,10 @@ Role behaviour: Replace or Merge (with "hash_behaviour=replace" in ansible.cfg):
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             mysql 
+      # mysql
       mysql:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf 
+      # mysql -> config
       mysql_config:
         enabled: false
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"

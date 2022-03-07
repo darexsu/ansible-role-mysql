@@ -10,7 +10,7 @@
 
   vars:
     merge:
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             mysql
+      # mysql
       mysql:
         enabled: true
         src: "distribution"
@@ -18,13 +18,13 @@
         service:
           state: "started"
           enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             remove mysql
+      # mysql -> remove
       mysql_remove:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             install mysql
+      # mysql -> install
       mysql_install:
         enabled: true
-    # ┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄             config server.cnf
+      # mysql -> config
       mysql_config:
         enabled: true
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"

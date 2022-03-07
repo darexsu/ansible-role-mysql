@@ -11,7 +11,7 @@ rules:
   line-length: disable
   truthy: disable
   new-line-at-end-of-file: disable
-  colons: disable
+  comments-indentation: disable
 
 ignore: |
   .tox/
