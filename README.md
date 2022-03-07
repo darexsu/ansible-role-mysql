@@ -2,10 +2,15 @@
 
 [![CI Molecule](https://github.com/darexsu/ansible-role-mysql/actions/workflows/ci.yml/badge.svg)](https://github.com/darexsu/ansible-role-mysql/actions/workflows/ci.yml)&emsp;![](https://img.shields.io/static/v1?label=idempotence&message=ok&color=success)&emsp;![Ansible Role](https://img.shields.io/ansible/role/d/58299?color=blue&label=downloads)
 
-|  Testing         |  Debian            |  Ubuntu         |  Rocky Linux  | Oracle Linux |
-| :--------------: | :----------------: | :-------------: | :-----------: | :----------: |
-| Distro version   |  10, 11            | 18.04, 20.04    |  8            | 8            |
-| Third-party repo |  mysql.com         |   mysql.com     |   mysql.com   |  mysql.com   | 
+
+|  Testing         |  Official repo     |  Third-party repo |
+| :--------------: | :----------------: | :-------------:   |
+| Debian 11        |  No                |    mysql.com     |
+| Debian 10        |  No                |    mysql.com     |
+| Ubuntu 20.04     |  No                |    mysql.com     |
+| Ubuntu 18.04     |  No                |    mysql.com     |
+| Oracle Linux 8   |  mysql 8.0         |    mysql.com     |
+| Rocky Linux 8    |  mysql 8.0         |    mysql.com     |
 
 ### 1) Install role from Galaxy
 ```
