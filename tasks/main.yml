@@ -1,19 +1,19 @@
 ---
 - name: merge dictionaries
   block:
-  - include_vars:
-      file: ../../darexsu.mysql/defaults/main.yml
-      name: mysql_default_vars
+    - include_vars:
+        file: ../../darexsu.mysql/defaults/main.yml
+        name: mysql_default_vars
 
-  - name: merge default and new dictionaries
-    set_fact:
-      "{{ item.key }}": "{{ mysql_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
-    when: mysql_default_vars[item.key] is defined
-    with_dict: "{{ merge }}"
+    - name: merge default and new dictionaries
+      set_fact:
+        "{{ item.key }}": "{{ mysql_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
+      when: mysql_default_vars[item.key] is defined
+      with_dict: "{{ merge }}"
 
-  - name: combine defaults vars with merge dictionary
-    set_fact:
-      merge: "{{ mysql_default_vars | combine(merge, recursive=True)}}"
+    - name: combine defaults vars with merge dictionary
+      set_fact:
+        merge: "{{ mysql_default_vars | combine(merge, recursive=True)}}"
   when: merge is defined
 
 - name: mysql role is disabled

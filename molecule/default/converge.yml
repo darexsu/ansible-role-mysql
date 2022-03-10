@@ -21,7 +21,7 @@
           enabled: true
       # mysql -> remove
       mysql_remove:
-        enabled: true
+        enabled: false
       # mysql -> install
       mysql_install:
         enabled: true
@@ -31,7 +31,7 @@
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
         src: "mysql__server.conf.j2"
         backup: true
-        skip-grant-tables: true
+        skip-grant-tables: false
         vars:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"

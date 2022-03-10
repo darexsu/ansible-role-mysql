@@ -43,8 +43,8 @@ mysql_config:
 mysql_remove:
   enabled: false
   packages:
-    Debian: [mysql-server, mysql-client, mysql-server, mysql-client]
-    RedHat: [mysql-server, mysql-client, mysql-server, mysql-client]
+    Debian: ["mysql-community-*"]
+    RedHat: ["mysql-community-*"]
 
 # mysql -> constants
 mysql_const:

@@ -38,4 +38,9 @@
     state: present
     update_cache: true
   ignore_errors: true
+  register: mysql_install_redhat
   with_items: "{{ mysql_install['packages']['RedHat'] }}"
+
+- name: include reset mysql password for RedHat
+  include_tasks: ./tasks/config/mysql_config__reset_root_password.yml
+  when: mysql_install_redhat.changed and mysql.src == "third_party"
