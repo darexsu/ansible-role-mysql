@@ -36,7 +36,7 @@
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family]['log-error'] }}"
+          log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
 
   tasks:
     - name: include role mysql
