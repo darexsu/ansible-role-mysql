@@ -26,7 +26,7 @@
         enabled: true
       # mysql -> config
       mysql_config:
-        enabled: true
+        enabled: false
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
         src: "mysql__server.conf.j2"
         backup: true
