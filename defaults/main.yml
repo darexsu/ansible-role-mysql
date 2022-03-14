@@ -1,5 +1,5 @@
 ---
-# mysql
+# MySQL
 #   ├── install
 #   |    ├── packages
 #   |    └── dependencies#
@@ -7,7 +7,7 @@
 #   |    └── server.cnf
 #   └── remove
 
-# mysql
+# MySQL
 mysql:
   enabled: false
   src: "distribution"
@@ -16,7 +16,7 @@ mysql:
     state: "started"
     enabled: true
 
-# mysql -> install
+# MySQL -> install
 mysql_install:
   enabled: false
   packages:
@@ -26,7 +26,7 @@ mysql_install:
     Debian: [gnupg2, python3, python3-pymysql]
     RedHat: [python3, python3-PyMySQL]
 
-# mysql -> config
+# MySQL -> config
 mysql_config:
   enabled: false
   file: "{{ mysql_const[ansible_os_family]['config_file']}}"
@@ -39,14 +39,14 @@ mysql_config:
     datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
     log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
 
-# mysql -> remove
+# MySQL -> remove
 mysql_remove:
   enabled: false
   packages:
     Debian: ["mysql-community-*"]
     RedHat: ["mysql-community-*"]
 
-# mysql -> constants
+# MySQL -> constants
 mysql_const:
   Debian:
     third_party:
