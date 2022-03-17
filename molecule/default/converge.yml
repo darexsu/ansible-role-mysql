@@ -14,7 +14,7 @@
       # MySQL
       mysql:
         enabled: true
-        src: "third_party"
+        repo: "mysql"
         version: "8.0"
         service:
           state: "started"
@@ -41,7 +41,7 @@
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
+          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
 
   tasks:
     - name: include role mysql

@@ -9,8 +9,8 @@
 # MySQL
 mysql:
   enabled: false
-  src: "distribution"
-  version: ""
+  repo: "mysql"
+  version: "10.5"
   service:
     enabled: true
     state: "started"
@@ -36,34 +36,34 @@ mysql_config:
     pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
     socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
     datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-    log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
+    log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
 
 # MySQL -> constants
 mysql_const:
   Debian:
-    third_party:
+    mysql:
       log-error: "/var/log/mysql/error.log"
+      repo: "deb https://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql.version }} "
+      gpg: "3A79BD29"
     distribution:
       log-error: "/var/log/mysql/error.log"
     service_name: "mysql"
     config_file: "mysqld.cnf"
     config_path: "/etc/mysql/mysql.conf.d/"
-    mysql_repo: "deb https://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql.version }} "
-    mysql_gpg: "3A79BD29"
     pid-file: "/var/run/mysqld/mysqld.pid"
     socket: "/var/run/mysqld/mysqld.sock"
     datadir: "/var/lib/mysql"
     log-error: "/var/log/mysql/error.log"
   RedHat:
-    third_party:
+    mysql:
       log-error: "/var/log/mysqld.log"
+      repo: "https://repo.mysql.com/yum/mysql-{{ mysql.version }}-community/el/$releasever/$basearch"
+      gpg: "https://repo.mysql.com/RPM-GPG-KEY-mysql-2022"
     distribution:
       log-error: "/var/log/mysql/mysqld.log"
     service_name: "mysqld"
     config_file: "my.cnf"
     config_path: "/etc/"
-    mysql_repo: "https://repo.mysql.com/yum/mysql-{{ mysql.version }}-community/el/$releasever/$basearch"
-    mysql_gpg: "https://repo.mysql.com/RPM-GPG-KEY-mysql-2022"
     pid-file: "/var/run/mysqld/mysqld.pid"
     socket: "/var/lib/mysql/mysql.sock"
     datadir: "/var/lib/mysql"

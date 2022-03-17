@@ -10,15 +10,15 @@
   block:
     - name: "Add repository gpg key"
       ansible.builtin.apt_key:
-        id: "{{ mysql_const[ansible_os_family]['mysql_gpg'] }}"
+        id: "{{ mysql_const[ansible_os_family][mysql.repo]['gpg'] }}"
         keyserver: keyserver.ubuntu.com
         state: present
 
     - name: "Add MySQL repository"
       ansible.builtin.apt_repository:
-        repo: "{{ mysql_const[ansible_os_family]['mysql_repo'] }}"
+        repo: "{{ mysql_const[ansible_os_family][mysql.repo]['repo'] }}"
         state: present
-  when: mysql.src == "third_party"
+  when: mysql.repo == "mysql"
 
 - name: "Install MySQL packages"
   ansible.builtin.apt:

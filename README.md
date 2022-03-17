@@ -8,19 +8,19 @@
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
       - [install and configure: MySQL](#install-and-configure-mysql-merge-version)
-          - [install: MySQL from official repo](#install-mysql-from-official-merge-version)
-          - [install: MySQL from third-party repo](#install-mysql-from-third-party-merge-version)
+          - [install: MySQL, repository: distribution](#install-mysql-repository-distribution-repo-merge-version)
+          - [install: MySQL, repository: mysql](#install-mysql-repository-mysql-merge-version)
           - [configure: server.conf](#configure-serverconf-merge-version)
   - Playbooks (full version):
       - [install and configure: MySQL](#install-and-configure-mysql-full-version)
-          - [install: MySQL from official repo](#install-mysql-from-official-repo-full-version)
-          - [install: MySQL from third-party repo](#install-mysql-from-third-party-repo-full-version)
+          - [install: MySQL, repository: distribution](#install-mysql-repository-distribution-full-version)
+          - [install: MySQL, repository: mysql](#install-mysql-repository-mysql-full-version)
           - [configure: server.conf](#configure-serverconf-full-version)
 
 ### Platforms
 
-|  Testing         |  Official repo     |  Third-party repo |
-| :--------------: | :----------------: | :-------------:   |
+|  Testing         | repo: distribution |  repo: mysql     |
+| :--------------: | :----------------: | :-------------:  |
 | Debian 11        |  No                |    mysql.com     |
 | Debian 10        |  No                |    mysql.com     |
 | Ubuntu 20.04     |  No                |    mysql.com     |
@@ -67,7 +67,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "distribution"
+        repo: "mysql"
       # MySQL -> install
       mysql_install:
         enabled: true
@@ -79,7 +79,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
+          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
   
   tasks:
     - name: include role darexsu.mysql
@@ -87,7 +87,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         name: darexsu.mysql
 ```
 
-##### Install: MySQL from official repo (merge version)
+##### Install: MySQL, repository: distribution (merge version)
 ```yaml
 ---
 - hosts: all
@@ -98,7 +98,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "distribution"
+        repo: "distribution"
       # MySQL -> install
       mysql_install:
         enabled: true
@@ -108,7 +108,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       include_role: 
         name: darexsu.mysql
 ```
-##### Install: MySQL from third-party repo (merge version)
+##### Install: MySQL, repository: mysql (merge version)
 ```yaml
 ---
 - hosts: all
@@ -119,7 +119,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "third_party"
+        repo: "mysql"
         version: "8.0"
       # MySQL -> install
       mysql_install:
@@ -146,14 +146,14 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       mysql_config:
         enabled: true
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-        src: "mysql__server.conf.j2"
+        src: "mysql_server.conf.j2"
         backup: false
         skip-grant-tables: false
         data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
+          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
   
   tasks:
     - name: include role darexsu.mysql
@@ -171,8 +171,8 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "distribution"
-        version: ""
+        repo: "mysql"
+        version: "8.0"
         service:
           state: "started"
           enabled: true
@@ -189,14 +189,14 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       mysql_config:
         enabled: true
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-        src: "mysql__server.conf.j2"
+        src: "mysql_server.conf.j2"
         backup: false
         skip-grant-tables: false
         data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
+          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
   
   tasks:
     - name: include role darexsu.mysql
@@ -204,7 +204,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         name: darexsu.mysql
 ```
 
-##### Install: MySQL from official repo (full version)
+##### Install: MySQL, repository: distribution (full version)
 ```yaml
 ---
 - hosts: all
@@ -215,7 +215,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "distribution"
+        repo: "distribution"
         version: ""
         service:
           state: "started"
@@ -235,7 +235,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       include_role: 
         name: darexsu.mysql
 ```
-##### Install: MySQL from third-party repo (full version)
+##### Install: MySQL, repository: mysql (full version)
 ```yaml
 ---
 - hosts: all
@@ -246,7 +246,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "third_party"
+        repo: "mysql"
         version: "8.0"
         service:
           state: "started"
@@ -278,7 +278,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       # MySQL
       mysql:
         enabled: true
-        src: "distribution"
+        repo: "distribution"
         version: ""
         service:
           state: "started"
@@ -287,14 +287,14 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       mysql_config:
         enabled: true
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-        src: "mysql__server.conf.j2"
+        src: "mysql_server.conf.j2"
         backup: false
         skip-grant-tables: false
         data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
+          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
   
   tasks:
     - name: include role darexsu.mysql

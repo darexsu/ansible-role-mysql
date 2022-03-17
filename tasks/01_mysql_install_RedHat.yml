@@ -10,18 +10,18 @@
   block:
     - name: "Import MySQL gpg key"
       ansible.builtin.rpm_key:
-        key: "{{ mysql_const[ansible_os_family]['mysql_gpg'] }}"
+        key: "{{ mysql_const[ansible_os_family][mysql.repo]['gpg'] }}"
         state: present
 
     - name: "Add MySQL repository"
       ansible.builtin.yum_repository:
         name: mysql
         description: mysql YUM repo
-        baseurl: "{{ mysql_const[ansible_os_family]['mysql_repo'] }}"
+        baseurl: "{{ mysql_const[ansible_os_family][mysql.repo]['repo'] }}"
         gpgcheck: yes
         enabled: true
         module_hotfixes: true
-  when: mysql.src == "third_party"
+  when: mysql.repo == "mysql"
 
 - name: "Install mysql packages"
   ansible.builtin.package:
@@ -34,4 +34,4 @@
 
 - name: "-> 02_mysql_reset_root_password.yml"
   include_tasks: ./tasks/02_mysql_reset_root_password.yml
-  when: mysql_install_redhat.changed and mysql.src == "third_party"
+  when: mysql_install_redhat.changed and mysql.repo == "mysql"
