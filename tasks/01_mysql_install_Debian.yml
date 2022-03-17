@@ -1,35 +1,26 @@
 ---
-- name: ensure dependencies are installed.
+- name: "Ensure dependencies are installed"
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: true
   with_items: "{{ mysql_install['dependencies']['Debian'] }}"
 
-- name: remove old packages.
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: absent
-    update_cache: true
-  ignore_errors: true
-  with_items: "{{ mysql_remove['packages']['Debian'] }}"
-  when: mysql_remove.enabled
-
-- name: add repo mysql
+- name: "Add repo MySQL"
   block:
-    - name: add repository gpg key
+    - name: "Add repository gpg key"
       ansible.builtin.apt_key:
         id: "{{ mysql_const[ansible_os_family]['mysql_gpg'] }}"
         keyserver: keyserver.ubuntu.com
         state: present
 
-    - name: add mysql repository
+    - name: "Add MySQL repository"
       ansible.builtin.apt_repository:
         repo: "{{ mysql_const[ansible_os_family]['mysql_repo'] }}"
         state: present
   when: mysql.src == "third_party"
 
-- name: install mysql packages.
+- name: "Install MySQL packages"
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present

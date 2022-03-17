@@ -5,8 +5,8 @@
   - Role:
       - [platforms](#platforms)
       - [install](#install)
-      - [behaviour](#behaviour)
-  - Playbooks (short version):
+      - [merge behaviour](#merge-behaviour)
+  - Playbooks (merge version):
       - [install and configure: MySQL](#install-and-configure-mysql-short-version)
           - [install: MySQL from official repo](#install-mysql-from-official-repo-short-version)
           - [install: MySQL from third-party repo](#install-mysql-from-third-party-repo-short-version)
@@ -34,7 +34,7 @@
 ansible-galaxy install darexsu.mysql --force
 ```
 
-### Behaviour
+### Merge behaviour
 
 Replace or Merge dictionaries (with "hash_behaviour=replace" in ansible.cfg):
 ```
@@ -56,7 +56,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
     
 ```
 
-##### Install and configure: MySQL (short version)
+##### Install and configure: MySQL (merge version)
 ```yaml
 ---
 - hosts: all
@@ -75,7 +75,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       mysql_config:
         enabled: true
         skip-grant-tables: false
-        vars:
+        data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
@@ -87,7 +87,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         name: darexsu.mysql
 ```
 
-##### Install: MySQL from official repo (short version)
+##### Install: MySQL from official repo (merge version)
 ```yaml
 ---
 - hosts: all
@@ -108,7 +108,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
       include_role: 
         name: darexsu.mysql
 ```
-##### Install: MySQL from third-party repo (short version)
+##### Install: MySQL from third-party repo (merge version)
 ```yaml
 ---
 - hosts: all
@@ -131,7 +131,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         name: darexsu.mysql
 ```
 
-##### Configure: server.conf (short version)
+##### Configure: server.conf (merge version)
 ```yaml
 ---
 - hosts: all
@@ -149,7 +149,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         src: "mysql__server.conf.j2"
         backup: false
         skip-grant-tables: false
-        vars:
+        data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
@@ -192,7 +192,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         src: "mysql__server.conf.j2"
         backup: false
         skip-grant-tables: false
-        vars:
+        data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
@@ -290,7 +290,7 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
         src: "mysql__server.conf.j2"
         backup: false
         skip-grant-tables: false
-        vars:
+        data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"

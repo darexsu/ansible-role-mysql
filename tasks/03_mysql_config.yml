@@ -1,5 +1,5 @@
 ---
-- name: edit server.cnf config
+- name: "Edit server.cnf config"
   ansible.builtin.template:
     src: "{{ mysql_config.src }}"
     dest: "{{ mysql_const[ansible_os_family]['config_path'] }}{{ mysql_config['file'] }}"

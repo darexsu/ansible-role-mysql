@@ -11,7 +11,7 @@
 
   vars:
     merge:
-      # mysql
+      # MySQL
       mysql:
         enabled: true
         src: "third_party"
@@ -19,20 +19,25 @@
         service:
           state: "started"
           enabled: true
-      # mysql -> remove
-      mysql_remove:
-        enabled: false
-      # mysql -> install
+
+      # MySQL -> install
       mysql_install:
         enabled: true
-      # mysql -> config
+        packages:
+          Debian: [mysql-server]
+          RedHat: [mysql-server]
+        dependencies:
+          Debian: [gnupg2, python3, python3-pymysql]
+          RedHat: [python3, python3-PyMySQL]
+
+      # MySQL -> config
       mysql_config:
-        enabled: false
+        enabled: true
         file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-        src: "mysql__server.conf.j2"
-        backup: true
+        src: "mysql_server.conf.j2"
+        backup: false
         skip-grant-tables: false
-        vars:
+        data:
           pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
           socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
           datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"

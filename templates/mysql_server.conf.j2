@@ -2,7 +2,7 @@
 [server]
 
 [mysqld]
-{% for key, value in mysql_config.vars.items() %}  
+{% for key, value in mysql_config.data.items() %}  
 {{ key }}={{ value }}
 {% endfor %}
 {% if mysql_config['skip-grant-tables'] %}

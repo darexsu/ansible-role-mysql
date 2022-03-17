@@ -2,10 +2,9 @@
 # MySQL
 #   ├── install
 #   |    ├── packages
-#   |    └── dependencies#
-#   ├── config
-#   |    └── server.cnf
-#   └── remove
+#   |    └── dependencies
+#   └── config
+#        └── server.cnf
 
 # MySQL
 mysql:
@@ -13,8 +12,8 @@ mysql:
   src: "distribution"
   version: ""
   service:
-    state: "started"
     enabled: true
+    state: "started"
 
 # MySQL -> install
 mysql_install:
@@ -30,21 +29,14 @@ mysql_install:
 mysql_config:
   enabled: false
   file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-  src: "mysql__server.conf.j2"
+  src: "mysql_server.conf.j2"
   backup: false
   skip-grant-tables: false
-  vars:
+  data:
     pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
     socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
     datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
     log-error: "{{ mysql_const[ansible_os_family][mysql.src]['log-error'] }}"
-
-# MySQL -> remove
-mysql_remove:
-  enabled: false
-  packages:
-    Debian: ["mysql-community-*"]
-    RedHat: ["mysql-community-*"]
 
 # MySQL -> constants
 mysql_const:

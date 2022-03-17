@@ -1,37 +1,38 @@
 ---
-- name: merge dictionaries
+- name: "Merge dictionaries"
   block:
-    - include_vars:
+    - name: "Register default vars"
+      include_vars:
         file: ../../darexsu.mysql/defaults/main.yml
         name: mysql_default_vars
 
-    - name: merge default and new dictionaries
+    - name: "Merge default and new dictionaries"
       set_fact:
         "{{ item.key }}": "{{ mysql_default_vars[item.key] | combine(merge[item.key], recursive=True)}}"
       when: mysql_default_vars[item.key] is defined
       with_dict: "{{ merge }}"
 
-    - name: combine defaults vars with merge dictionary
+    - name: "Combine defaults vars with merge dictionary"
       set_fact:
         merge: "{{ mysql_default_vars | combine(merge, recursive=True)}}"
   when: merge is defined
 
-- name: mysql role is disabled
+- name: "MySQL role is disabled"
   meta: end_play
   when: not mysql.enabled
 
-- name: include mysql install
-  include_tasks: ./tasks/install/mysql_install__{{ ansible_os_family }}.yml
+- name: "-> 01_mysql_install_{{ ansible_os_family }}.yml"
+  include_tasks: ./tasks/01_mysql_install_{{ ansible_os_family }}.yml
   when: mysql_install.enabled
 
-- name: include mysql config
-  include_tasks: ./tasks/config/mysql_config.yml
-  when: mysql_config.enabled
-
-- name: service facts
+- name: "Service facts"
   ansible.builtin.service_facts:
 
-- name: "ensure mysql {{ mysql.service.state }}"
+- name: "-> 03_mysql_config.yml"
+  include_tasks: ./tasks/03_mysql_config.yml
+  when: ansible_facts.services is search("mysql") and mysql_config.enabled
+
+- name: "Ensure MySQL {{ mysql.service.state }}"
   ansible.builtin.service:
     name: "{{ mysql_const[ansible_os_family]['service_name'] }}"
     state: "{{ mysql.service.state }}"
