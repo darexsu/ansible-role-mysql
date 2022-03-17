@@ -10,7 +10,7 @@
 mysql:
   enabled: false
   repo: "mysql"
-  version: "10.5"
+  version: "8.0"
   service:
     enabled: true
     state: "started"
