@@ -8,7 +8,7 @@
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
       - [install and configure: MySQL](#install-and-configure-mysql-merge-version)
-          - [install: MySQL, repository: distribution](#install-mysql-repository-distribution-repo-merge-version)
+          - [install: MySQL, repository: distribution](#install-mysql-repository-distribution-merge-version)
           - [install: MySQL, repository: mysql](#install-mysql-repository-mysql-merge-version)
           - [configure: server.conf](#configure-serverconf-merge-version)
   - Playbooks (full version):
