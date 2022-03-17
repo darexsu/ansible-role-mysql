@@ -8,8 +8,8 @@
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
       - [install and configure: MySQL](#install-and-configure-mysql-merge-version)
-          - [install: MySQL from official repo](#install-mysql-from-official-merge-short-version)
-          - [install: MySQL from third-party repo](#install-mysql-from-third-party-merge-short-version)
+          - [install: MySQL from official repo](#install-mysql-from-official-merge-version)
+          - [install: MySQL from third-party repo](#install-mysql-from-third-party-merge-version)
           - [configure: server.conf](#configure-serverconf-merge-version)
   - Playbooks (full version):
       - [install and configure: MySQL](#install-and-configure-mysql-full-version)
