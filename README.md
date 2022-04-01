@@ -7,12 +7,12 @@
       - [install](#install)
       - [merge behaviour](#merge-behaviour)
   - Playbooks (merge version):
-      - [install and configure: MySQL](#install-and-configure-mysql-merge-version)
+      - [install and configure: MySQL 8.0](#install-and-configure-mysql-merge-version)
           - [install: MySQL, repository: distribution](#install-mysql-repository-distribution-merge-version)
           - [install: MySQL, repository: mysql](#install-mysql-repository-mysql-merge-version)
           - [configure: server.conf](#configure-serverconf-merge-version)
   - Playbooks (full version):
-      - [install and configure: MySQL](#install-and-configure-mysql-full-version)
+      - [install and configure: MySQL 8.0](#install-and-configure-mysql-full-version)
           - [install: MySQL, repository: distribution](#install-mysql-repository-distribution-full-version)
           - [install: MySQL, repository: mysql](#install-mysql-repository-mysql-full-version)
           - [configure: server.conf](#configure-serverconf-full-version)
@@ -167,36 +167,29 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
   become: true
 
   vars:
-    merge:
-      # MySQL
-      mysql:
+    # MySQL
+    mysql:
+      enabled: true
+      repo: "mysql"
+      version: "8.0"
+      service:
+        state: "started"
         enabled: true
-        repo: "mysql"
-        version: "8.0"
-        service:
-          state: "started"
-          enabled: true
-      # MySQL -> install
-      mysql_install:
-        enabled: true
-        packages:
-          Debian: [mysql-server]
-          RedHat: [mysql-server]
-        dependencies:
-          Debian: [gnupg2, python3, python3-pymysql]
-          RedHat: [python3, python3-PyMySQL]
-      # MySQL -> config
-      mysql_config:
-        enabled: true
-        file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-        src: "mysql_server.conf.j2"
-        backup: false
-        skip-grant-tables: false
-        data:
-          pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
-          socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
-          datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
+    # MySQL -> install
+    mysql_install:
+      enabled: true
+    # MySQL -> config
+    mysql_config:
+      enabled: true
+      file: "{{ mysql_const[ansible_os_family]['config_file']}}"
+      src: "mysql_server.conf.j2"
+      backup: false
+      skip-grant-tables: false
+      data:
+        pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
+        socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
+        datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
+        log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
   
   tasks:
     - name: include role darexsu.mysql
@@ -211,24 +204,17 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
   become: true
 
   vars:
-    merge:
-      # MySQL
-      mysql:
+    # MySQL
+    mysql:
+      enabled: true
+      repo: "distribution"
+      version: ""
+      service:
+        state: "started"
         enabled: true
-        repo: "distribution"
-        version: ""
-        service:
-          state: "started"
-          enabled: true
-      # MySQL -> install
-      mysql_install:
-        enabled: true
-        packages:
-          Debian: [mysql-server]
-          RedHat: [mysql-server]
-        dependencies:
-          Debian: [gnupg2, python3, python3-pymysql]
-          RedHat: [python3, python3-PyMySQL]
+    # MySQL -> install
+    mysql_install:
+      enabled: true
   
   tasks:
     - name: include role darexsu.mysql
@@ -242,24 +228,17 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
   become: true
 
   vars:
-    merge:
-      # MySQL
-      mysql:
+    # MySQL
+    mysql:
+      enabled: true
+      repo: "mysql"
+      version: "8.0"
+      service:
+        state: "started"
         enabled: true
-        repo: "mysql"
-        version: "8.0"
-        service:
-          state: "started"
-          enabled: true
-      # MySQL -> install
-      mysql_install:
-        enabled: true
-        packages:
-          Debian: [mysql-server]
-          RedHat: [mysql-server]
-        dependencies:
-          Debian: [gnupg2, python3, python3-pymysql]
-          RedHat: [python3, python3-PyMySQL]
+    # MySQL -> install
+    mysql_install:
+      enabled: true
   
   tasks:
     - name: include role darexsu.mysql
@@ -274,27 +253,26 @@ Your vars [host_vars]  -->  default vars [current role] --> default vars [includ
   become: true
 
   vars:
-    merge:
-      # MySQL
-      mysql:
+    # MySQL
+    mysql:
+      enabled: true
+      repo: "mysql"
+      version: "8.0"
+      service:
+        state: "started"
         enabled: true
-        repo: "distribution"
-        version: ""
-        service:
-          state: "started"
-          enabled: true
-      # MySQL -> config
-      mysql_config:
-        enabled: true
-        file: "{{ mysql_const[ansible_os_family]['config_file']}}"
-        src: "mysql_server.conf.j2"
-        backup: false
-        skip-grant-tables: false
-        data:
-          pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
-          socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
-          datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
-          log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
+    # MySQL -> config
+    mysql_config:
+      enabled: true
+      file: "{{ mysql_const[ansible_os_family]['config_file']}}"
+      src: "mysql_server.conf.j2"
+      backup: false
+      skip-grant-tables: false
+      data:
+        pid-file: "{{ mysql_const[ansible_os_family]['pid-file'] }}"
+        socket: "{{ mysql_const[ansible_os_family]['socket'] }}"
+        datadir: "{{ mysql_const[ansible_os_family]['datadir'] }}"
+        log-error: "{{ mysql_const[ansible_os_family][mysql.repo]['log-error'] }}"
   
   tasks:
     - name: include role darexsu.mysql

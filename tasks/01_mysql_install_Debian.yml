@@ -4,7 +4,7 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  with_items: "{{ mysql_install['dependencies']['Debian'] }}"
+  with_items: "{{ mysql_const[ansible_os_family]['dependencies'] }}"
 
 - name: "Add repo MySQL"
   block:
@@ -25,5 +25,4 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  ignore_errors: true
-  with_items: "{{ mysql_install['packages']['Debian'] }}"
+  with_items: "{{ mysql_const[ansible_os_family]['packages'] }}"

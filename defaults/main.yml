@@ -10,7 +10,7 @@
 mysql:
   enabled: false
   repo: "mysql"
-  version: "10.5"
+  version: "8.0"
   service:
     enabled: true
     state: "started"
@@ -18,12 +18,6 @@ mysql:
 # MySQL -> install
 mysql_install:
   enabled: false
-  packages:
-    Debian: [mysql-server]
-    RedHat: [mysql-server]
-  dependencies:
-    Debian: [gnupg2, python3, python3-pymysql]
-    RedHat: [python3, python3-PyMySQL]
 
 # MySQL -> config
 mysql_config:
@@ -41,12 +35,8 @@ mysql_config:
 # MySQL -> constants
 mysql_const:
   Debian:
-    mysql:
-      log-error: "/var/log/mysql/error.log"
-      repo: "deb https://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql.version }} "
-      gpg: "3A79BD29"
-    distribution:
-      log-error: "/var/log/mysql/error.log"
+    packages: [mysql-server]
+    dependencies: [gnupg2, python3, python3-pymysql]
     service_name: "mysql"
     config_file: "mysqld.cnf"
     config_path: "/etc/mysql/mysql.conf.d/"
@@ -54,16 +44,24 @@ mysql_const:
     socket: "/var/run/mysqld/mysqld.sock"
     datadir: "/var/lib/mysql"
     log-error: "/var/log/mysql/error.log"
-  RedHat:
     mysql:
-      log-error: "/var/log/mysqld.log"
-      repo: "https://repo.mysql.com/yum/mysql-{{ mysql.version }}-community/el/$releasever/$basearch"
-      gpg: "https://repo.mysql.com/RPM-GPG-KEY-mysql-2022"
+      log-error: "/var/log/mysql/error.log"
+      repo: "deb https://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql.version }} "
+      gpg: "3A79BD29"
     distribution:
-      log-error: "/var/log/mysql/mysqld.log"
+      log-error: "/var/log/mysql/error.log"
+  RedHat:
+    packages: [mysql-server]
+    dependencies: [python3, python3-PyMySQL]
     service_name: "mysqld"
     config_file: "my.cnf"
     config_path: "/etc/"
     pid-file: "/var/run/mysqld/mysqld.pid"
     socket: "/var/lib/mysql/mysql.sock"
     datadir: "/var/lib/mysql"
+    mysql:
+      log-error: "/var/log/mysqld.log"
+      repo: "https://repo.mysql.com/yum/mysql-{{ mysql.version }}-community/el/$releasever/$basearch"
+      gpg: "https://repo.mysql.com/RPM-GPG-KEY-mysql-2022"
+    distribution:
+      log-error: "/var/log/mysql/mysqld.log"

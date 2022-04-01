@@ -4,7 +4,7 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  with_items: "{{ mysql_install['dependencies']['RedHat'] }}"
+  with_items: "{{ mysql_const[ansible_os_family]['dependencies'] }}"
 
 - name: "Add repo for RedHat"
   block:
@@ -28,9 +28,8 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  ignore_errors: true
   register: mysql_install_redhat
-  with_items: "{{ mysql_install['packages']['RedHat'] }}"
+  with_items: "{{ mysql_const[ansible_os_family]['packages'] }}"
 
 - name: "-> 02_mysql_reset_root_password.yml"
   include_tasks: ./tasks/02_mysql_reset_root_password.yml
